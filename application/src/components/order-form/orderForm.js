@@ -17,10 +17,19 @@ class OrderForm extends Component {
             order_item: "",
             quantity: "1"
         }
+        this.initialState = this.state;
+    }
+
+    alertOrder = (success) => {
+        if (!success) {
+            return alert('Uh oh! There was an error, please try again!');
+        }
+        alert('Great! Your food will be ready soon!');
+        this.setState(this.initialState);
     }
 
     menuItemChosen(event) {
-        this.setState({ item: event.target.value });
+        this.setState({ order_item: event.target.value });
     }
 
     menuQuantityChosen(event) {
@@ -42,7 +51,7 @@ class OrderForm extends Component {
             }
         })
         .then(res => res.json())
-        .then(response => console.log("Success", JSON.stringify(response)))
+        .then(response => this.alertOrder(response.success))
         .catch(error => console.error(error));
     }
 
